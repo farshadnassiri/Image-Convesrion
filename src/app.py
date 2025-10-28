@@ -12,7 +12,7 @@ def main():
     if upload_file is None:
         return
     image=Image.open(upload_file,)
-    st.image(upload_file,"Your Image")
+    st.image(image,caption="Your Image")
     process_type=st.radio("Select the process type:",["Resize", "Type Conversion"])  
 
     if process_type =="Resize":
@@ -29,14 +29,30 @@ def main():
 
         if st.button("Resize image"):
             resized_image=resize_image(image,width,height,keep_aspect_ratio) 
-            st.image("Resized image:",image=resized_image)
+            st.image(caption="Resized image:",image=resized_image)
             result_buffer=BytesIO()
             resized_image.save(result_buffer,"PNG")  
             st.download_button("Download Image",
                 data=result_buffer.getvalue(),
                 file_name="resized image.png",
                 mime="image/png"
+
             ) 
+
+    else:
+        output_format = st.selectbox("Select output format", ["JPEG", "PNG"])
+        if st.button("Convert Image Type"):
+            converted_image = convert_image_type(image, output_format)
+            st.image(converted_image, caption=f'Image Converted to {output_format}')
+            result_buffer = BytesIO()
+            converted_image.save(result_buffer, format=output_format.upper())
+            st.download_button(
+                label="Download Image",
+                data=result_buffer.getvalue(),
+                file_name=f"converted_image.{output_format.lower()}",
+                mime=f"image/{output_format.lower()}"
+            )
+
 
 
 
