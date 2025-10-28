@@ -29,7 +29,7 @@ def main():
 
         if st.button("Resize image"):
             resized_image=resize_image(image,width,height,keep_aspect_ratio) 
-            st.image(caption="Resized image:",image=resized_image)
+            st.image(image=resized_image,caption="Resized image:")
             result_buffer=BytesIO()
             resized_image.save(result_buffer,"PNG")  
             st.download_button("Download Image",
@@ -45,7 +45,7 @@ def main():
             converted_image = convert_image_type(image, output_format)
             st.image(converted_image, caption=f'Image Converted to {output_format}')
             result_buffer = BytesIO()
-            converted_image.save(result_buffer, format=output_format.upper())
+            converted_image.save(result_buffer, format = output_format.upper())
             st.download_button(
                 label="Download Image",
                 data=result_buffer.getvalue(),
@@ -53,6 +53,8 @@ def main():
                 mime=f"image/{output_format.lower()}"
             )
 
+if __name__ == "__main__":
+    main()
 
 
 
